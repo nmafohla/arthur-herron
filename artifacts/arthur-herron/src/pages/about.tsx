@@ -3,6 +3,7 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import familyPhoto from "@assets/17042ae0-edd9-47c4-b9ad-e0090c74aea8_1783602359278.jpeg";
 import foundersPortrait from "@assets/cab111c4-1f8d-4991-9813-b8c3616785f6_1783602359278.jpeg";
+import tributePhoto from "@assets/57d135db-7a84-4352-bf38-b5d9b7329453_1783602359278.jpeg";
 
 export default function About() {
   return (
@@ -100,6 +101,21 @@ export default function About() {
                 className="rounded-lg object-cover w-full aspect-[4/3] shadow-md mb-4"
               />
               <figcaption className="text-sm text-muted-foreground">Family at the heart of everything we do, then and now.</figcaption>
+            </figure>
+          </div>
+
+          {/* In loving memory */}
+          <div className="mt-16 max-w-2xl mx-auto text-center">
+            <p className="font-serif text-sm uppercase tracking-widest text-secondary mb-6">In Loving Memory</p>
+            <figure>
+              <img
+                src={tributePhoto}
+                alt="A loving tribute to a cherished member of our family"
+                className="rounded-lg object-contain w-full max-w-md mx-auto shadow-md mb-5 bg-background"
+              />
+              <figcaption className="text-muted-foreground italic">
+                Forever remembered, forever part of our story. The love, values, and dedication he gave us live on in everything we do.
+              </figcaption>
             </figure>
           </div>
         </div>
