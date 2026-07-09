@@ -26,6 +26,8 @@ tags:
     description: Admin panel operations (protected)
   - name: payments
     description: Pesepay payment operations
+  - name: waitlist
+    description: Future product waitlist signups
 paths:
   /healthz:
     get:
@@ -230,6 +232,31 @@ paths:
                 $ref: "#/components/schemas/PesepayStatusResponse"
         "404":
           description: Order not found or payment not yet initiated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /waitlist:
+    post:
+      operationId: createWaitlistSignup
+      tags: [waitlist]
+      summary: Join the waitlist for upcoming products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WaitlistSignupInput"
+      responses:
+        "201":
+          description: Waitlist signup created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WaitlistSignup"
+        "400":
+          description: Invalid input
           content:
             application/json:
               schema:
@@ -627,6 +654,26 @@ components:
         fee: { type: number }
         etaText: { type: string }
         sameDayCutoff: { type: string }
+
+    WaitlistSignupInput:
+      type: object
+      required: [fullName]
+      properties:
+        fullName: { type: string }
+        email: { type: ["string", "null"] }
+        phone: { type: ["string", "null"] }
+        interest: { type: ["string", "null"] }
+
+    WaitlistSignup:
+      type: object
+      required: [id, fullName, email, phone, interest, createdAt]
+      properties:
+        id: { type: integer }
+        fullName: { type: string }
+        email: { type: ["string", "null"] }
+        phone: { type: ["string", "null"] }
+        interest: { type: ["string", "null"] }
+        createdAt: { type: string }
 
     OrderItemInput:
       type: object

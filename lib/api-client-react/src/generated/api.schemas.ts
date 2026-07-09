@@ -73,6 +73,28 @@ export interface DeliveryZone {
   sameDayCutoff: string;
 }
 
+export interface WaitlistSignupInput {
+  fullName: string;
+  /** @nullable */
+  email?: string | null;
+  /** @nullable */
+  phone?: string | null;
+  /** @nullable */
+  interest?: string | null;
+}
+
+export interface WaitlistSignup {
+  id: number;
+  fullName: string;
+  /** @nullable */
+  email: string | null;
+  /** @nullable */
+  phone: string | null;
+  /** @nullable */
+  interest: string | null;
+  createdAt: string;
+}
+
 export interface OrderItemInput {
   productId: number;
   productName: string;

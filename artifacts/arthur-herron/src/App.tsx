@@ -14,6 +14,7 @@ import Checkout from "@/pages/checkout";
 import OrderConfirmation from "@/pages/order-confirmation";
 import Delivery from "@/pages/delivery";
 import About from "@/pages/about";
+import OurStory from "@/pages/our-story";
 import Contact from "@/pages/contact";
 import AdminLogin from "@/pages/admin-login";
 import Admin from "@/pages/admin";
@@ -32,6 +33,7 @@ function Router() {
       <Route path="/order-confirmation/:orderNumber" component={OrderConfirmation} />
       <Route path="/delivery" component={Delivery} />
       <Route path="/about" component={About} />
+      <Route path="/our-story" component={OurStory} />
       <Route path="/contact" component={Contact} />
       <Route path="/admin/login" component={AdminLogin} />
       <Route path="/admin" component={Admin} />

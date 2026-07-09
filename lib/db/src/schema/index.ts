@@ -21,3 +21,4 @@ export * from "./categories";
 export * from "./products";
 export * from "./delivery-zones";
 export * from "./orders";
+export * from "./waitlist";

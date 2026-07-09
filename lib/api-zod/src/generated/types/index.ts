@@ -38,3 +38,5 @@ export * from './productPricingType';
 export * from './storefrontSummary';
 export * from './uploadUrlRequest';
 export * from './uploadUrlResponse';
+export * from './waitlistSignup';
+export * from './waitlistSignupInput';

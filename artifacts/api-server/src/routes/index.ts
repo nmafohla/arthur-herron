@@ -8,6 +8,7 @@ import statsRouter from "./stats";
 import storageRouter from "./storage";
 import adminRouter from "./admin";
 import paymentsRouter from "./payments";
+import waitlistRouter from "./waitlist";
 
 const router: IRouter = Router();
 
@@ -20,5 +21,6 @@ router.use(statsRouter);
 router.use(storageRouter);
 router.use(adminRouter);
 router.use(paymentsRouter);
+router.use(waitlistRouter);
 
 export default router;

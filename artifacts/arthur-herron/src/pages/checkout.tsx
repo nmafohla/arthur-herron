@@ -425,6 +425,11 @@ export default function Checkout() {
                       <MessageCircle className="mr-2 h-5 w-5" />
                       Send Order on WhatsApp
                     </Button>
+
+                    <p className="text-xs text-muted-foreground text-center pt-2">
+                      We accept secure online payment (Pesepay), cash or EcoCash on delivery/pickup, and diaspora orders for family here in Zimbabwe.{" "}
+                      <Link href="/delivery" className="text-primary underline underline-offset-2">Learn more</Link>
+                    </p>
                   </div>
                 </CardContent>
               </Card>

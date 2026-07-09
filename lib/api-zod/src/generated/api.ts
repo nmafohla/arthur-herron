@@ -239,6 +239,26 @@ export const GetPesepayStatusResponse = zod.object({
 
 
 /**
+ * @summary Join the waitlist for upcoming products
+ */
+export const CreateWaitlistSignupBody = zod.object({
+  "fullName": zod.string(),
+  "email": zod.string().nullish(),
+  "phone": zod.string().nullish(),
+  "interest": zod.string().nullish()
+})
+
+export const CreateWaitlistSignupResponse = zod.object({
+  "id": zod.number(),
+  "fullName": zod.string(),
+  "email": zod.string().nullable(),
+  "phone": zod.string().nullable(),
+  "interest": zod.string().nullable(),
+  "createdAt": zod.string()
+})
+
+
+/**
  * @summary Webhook Pesepay calls with the final encrypted transaction result
  */
 export const PesepayResultWebhookBody = zod.object({

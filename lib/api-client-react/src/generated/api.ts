@@ -38,7 +38,9 @@ import type {
   Product,
   StorefrontSummary,
   UploadUrlRequest,
-  UploadUrlResponse
+  UploadUrlResponse,
+  WaitlistSignup,
+  WaitlistSignupInput
 } from './api.schemas';
 
 import { customFetch } from '../custom-fetch';
@@ -756,6 +758,77 @@ export function useGetPesepayStatus<TData = Awaited<ReturnType<typeof getPesepay
 
 
 
+
+export const getCreateWaitlistSignupUrl = () => {
+
+
+
+
+  return `/api/waitlist`
+}
+
+/**
+ * @summary Join the waitlist for upcoming products
+ */
+export const createWaitlistSignup = async (waitlistSignupInput: WaitlistSignupInput, options?: RequestInit): Promise<WaitlistSignup> => {
+
+  return customFetch<WaitlistSignup>(getCreateWaitlistSignupUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(waitlistSignupInput)
+  }
+);}
+
+
+
+
+
+export const getCreateWaitlistSignupMutationOptions = <TError = ErrorType<ErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createWaitlistSignup>>, TError,{data: BodyType<WaitlistSignupInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof createWaitlistSignup>>, TError,{data: BodyType<WaitlistSignupInput>}, TContext> => {
+
+const mutationKey = ['createWaitlistSignup'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createWaitlistSignup>>, {data: BodyType<WaitlistSignupInput>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  createWaitlistSignup(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateWaitlistSignupMutationResult = NonNullable<Awaited<ReturnType<typeof createWaitlistSignup>>>
+    export type CreateWaitlistSignupMutationBody = BodyType<WaitlistSignupInput>
+    export type CreateWaitlistSignupMutationError = ErrorType<ErrorResponse>
+
+    /**
+ * @summary Join the waitlist for upcoming products
+ */
+export const useCreateWaitlistSignup = <TError = ErrorType<ErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createWaitlistSignup>>, TError,{data: BodyType<WaitlistSignupInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof createWaitlistSignup>>,
+        TError,
+        {data: BodyType<WaitlistSignupInput>},
+        TContext
+      > => {
+      return useMutation(getCreateWaitlistSignupMutationOptions(options));
+    }
 
 export const getPesepayResultWebhookUrl = () => {
 
