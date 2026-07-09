@@ -44,11 +44,13 @@ export function Header() {
             </SheetTrigger>
             <SheetContent side="left" className="w-[300px] flex flex-col gap-6 p-6">
               <Link href="/" className="flex items-center justify-center pt-4">
-                <img
-                  src={theme === 'dark' ? "/brand/logo-stacked-dark.svg" : "/brand/logo-stacked.svg"}
-                  alt="Arthur Herron"
-                  className="h-24 w-auto"
-                />
+                <div className={theme === 'dark' ? "bg-[#F5F1E8] rounded-xl px-4 py-2" : ""}>
+                  <img
+                    src="/brand/logo-full.png"
+                    alt="Arthur Herron"
+                    className="h-24 w-auto"
+                  />
+                </div>
               </Link>
               <nav className="flex flex-col gap-4 mt-8">
                 {navLinks.map((link) => (
@@ -77,16 +79,20 @@ export function Header() {
           </Sheet>
 
           <Link href="/" className="flex items-center gap-2">
-            <img
-              src={theme === 'dark' ? "/brand/logo-horizontal-dark.svg" : "/brand/logo-horizontal.svg"}
-              alt="Arthur Herron"
-              className="h-8 sm:h-12 w-auto hidden sm:block"
-            />
-            <img
-              src={theme === 'dark' ? "/brand/logo-icon-dark.svg" : "/brand/logo-icon.svg"}
-              alt="Arthur Herron"
-              className="h-8 w-auto sm:hidden"
-            />
+            <div className={theme === 'dark' ? "bg-[#F5F1E8] rounded-lg px-2 py-1 hidden sm:block" : "hidden sm:block"}>
+              <img
+                src="/brand/logo-full.png"
+                alt="Arthur Herron"
+                className="h-12 lg:h-14 w-auto"
+              />
+            </div>
+            <div className={theme === 'dark' ? "bg-[#F5F1E8] rounded-lg p-1 sm:hidden" : "sm:hidden"}>
+              <img
+                src="/brand/logo-icon-new.png"
+                alt="Arthur Herron"
+                className="h-7 w-auto"
+              />
+            </div>
           </Link>
         </div>
 

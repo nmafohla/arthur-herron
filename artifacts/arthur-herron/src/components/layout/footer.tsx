@@ -11,11 +11,13 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div className="flex flex-col items-start">
             <Link href="/" className="mb-6">
-              <img
-                src={theme === 'dark' ? "/brand/logo-stacked-dark.svg" : "/brand/logo-stacked.svg"}
-                alt="Arthur Herron"
-                className="h-24 w-auto"
-              />
+              <div className={theme === 'dark' ? "bg-[#F5F1E8] rounded-xl px-4 py-2 inline-block" : ""}>
+                <img
+                  src="/brand/logo-full.png"
+                  alt="Arthur Herron"
+                  className="h-24 w-auto"
+                />
+              </div>
             </Link>
             <p className="text-muted-foreground text-sm leading-relaxed mb-6">
               Premium butchers serving Zimbabwe with the finest cuts, freshest meats, and reliable delivery right to your door.
