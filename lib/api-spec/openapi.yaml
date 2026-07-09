@@ -24,6 +24,8 @@ tags:
     description: Object storage upload and serving endpoints.
   - name: admin
     description: Admin panel operations (protected)
+  - name: payments
+    description: Pesepay payment operations
 paths:
   /healthz:
     get:
@@ -177,6 +179,76 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+
+  /payments/pesepay/initiate:
+    post:
+      operationId: initiatePesepayPayment
+      tags: [payments]
+      summary: Initiate a Pesepay payment for an order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PesepayInitiateInput"
+      responses:
+        "200":
+          description: Payment initiated, redirect the customer to redirectUrl
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PesepayInitiateResponse"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Order not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /payments/pesepay/status/{orderNumber}:
+    get:
+      operationId: getPesepayStatus
+      tags: [payments]
+      summary: Poll Pesepay for the latest status of an order's payment
+      parameters:
+        - name: orderNumber
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Current payment status
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PesepayStatusResponse"
+        "404":
+          description: Order not found or payment not yet initiated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /payments/pesepay/result:
+    post:
+      operationId: pesepayResultWebhook
+      tags: [payments]
+      summary: Webhook Pesepay calls with the final encrypted transaction result
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PesepayWebhookPayload"
+      responses:
+        "200":
+          description: Acknowledged
 
   /storage/uploads/request-url:
     post:
@@ -650,14 +722,45 @@ components:
         notes: { type: ["string", "null"] }
         status:
           type: string
-          enum: [pending_payment, confirmed]
+          enum: [pending_payment, confirmed, payment_failed]
         subtotal: { type: number }
         total: { type: number }
+        paymentReferenceNumber: { type: ["string", "null"] }
         createdAt: { type: string }
         items:
           type: array
           items:
             $ref: "#/components/schemas/OrderItem"
+
+    PesepayInitiateInput:
+      type: object
+      required: [orderNumber]
+      properties:
+        orderNumber: { type: string, minLength: 1 }
+
+    PesepayInitiateResponse:
+      type: object
+      required: [redirectUrl, referenceNumber]
+      properties:
+        redirectUrl: { type: string }
+        referenceNumber: { type: string }
+
+    PesepayStatusResponse:
+      type: object
+      required: [status, orderStatus]
+      properties:
+        status: { type: string, description: "Raw Pesepay transaction status" }
+        orderStatus:
+          type: string
+          enum: [pending_payment, confirmed, payment_failed]
+
+    PesepayWebhookPayload:
+      type: object
+      required: [payload]
+      properties:
+        payload:
+          type: string
+          description: Base64-encoded AES-256-CBC encrypted transaction payload
 
     UploadUrlRequest:
       type: object

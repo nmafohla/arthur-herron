@@ -1,1 +1,2 @@
 - [Drizzle numeric columns need normalization](drizzle-numeric-serialization.md) — postgres `numeric` columns return as strings via drizzle; API routes must cast to Number before Zod response validation.
+- [Pesepay sandbox check-payment decrypt failure](pesepay-sandbox-check-payment.md) — sandbox poll endpoint payload never decrypts even with correct key; rely on the resultUrl webhook, make polling fail soft.

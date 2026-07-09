@@ -152,9 +152,10 @@ export const CreateOrderResponse = zod.object({
   "preferredDate": zod.string(),
   "preferredTimeWindow": zod.string(),
   "notes": zod.string().nullable(),
-  "status": zod.enum(['pending_payment', 'confirmed']),
+  "status": zod.enum(['pending_payment', 'confirmed', 'payment_failed']),
   "subtotal": zod.number(),
   "total": zod.number(),
+  "paymentReferenceNumber": zod.string().nullish(),
   "createdAt": zod.string(),
   "items": zod.array(zod.object({
   "id": zod.number(),
@@ -190,9 +191,10 @@ export const GetOrderResponse = zod.object({
   "preferredDate": zod.string(),
   "preferredTimeWindow": zod.string(),
   "notes": zod.string().nullable(),
-  "status": zod.enum(['pending_payment', 'confirmed']),
+  "status": zod.enum(['pending_payment', 'confirmed', 'payment_failed']),
   "subtotal": zod.number(),
   "total": zod.number(),
+  "paymentReferenceNumber": zod.string().nullish(),
   "createdAt": zod.string(),
   "items": zod.array(zod.object({
   "id": zod.number(),
@@ -205,6 +207,45 @@ export const GetOrderResponse = zod.object({
   "lineTotal": zod.number()
 }))
 })
+
+
+/**
+ * @summary Initiate a Pesepay payment for an order
+ */
+
+
+
+export const InitiatePesepayPaymentBody = zod.object({
+  "orderNumber": zod.string().min(1)
+})
+
+export const InitiatePesepayPaymentResponse = zod.object({
+  "redirectUrl": zod.string(),
+  "referenceNumber": zod.string()
+})
+
+
+/**
+ * @summary Poll Pesepay for the latest status of an order's payment
+ */
+export const GetPesepayStatusParams = zod.object({
+  "orderNumber": zod.coerce.string()
+})
+
+export const GetPesepayStatusResponse = zod.object({
+  "status": zod.string().describe('Raw Pesepay transaction status'),
+  "orderStatus": zod.enum(['pending_payment', 'confirmed', 'payment_failed'])
+})
+
+
+/**
+ * @summary Webhook Pesepay calls with the final encrypted transaction result
+ */
+export const PesepayResultWebhookBody = zod.object({
+  "payload": zod.string().describe('Base64-encoded AES-256-CBC encrypted transaction payload')
+})
+
+export const PesepayResultWebhookResponse = zod.unknown()
 
 
 /**

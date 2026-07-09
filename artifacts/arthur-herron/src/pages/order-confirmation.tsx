@@ -1,18 +1,56 @@
+import { useState } from "react";
 import { useRoute, Link } from "wouter";
-import { useGetOrder } from "@workspace/api-client-react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useGetOrder, useInitiatePesepayPayment, useGetPesepayStatus, getGetOrderQueryKey } from "@workspace/api-client-react";
 import { Layout } from "@/components/layout/layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { CheckCircle2, ArrowRight, MapPin, Calendar, Clock, ShoppingBag, MessageCircle, CreditCard } from "lucide-react";
+import { CheckCircle2, MapPin, Calendar, Clock, ShoppingBag, MessageCircle, CreditCard, Loader2, XCircle } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
 export default function OrderConfirmation() {
   const [, params] = useRoute("/order-confirmation/:orderNumber");
   const orderNumber = params?.orderNumber || "";
+  const [paymentError, setPaymentError] = useState<string | null>(null);
 
-  const { data: order, isLoading } = useGetOrder(orderNumber, {
+  const { data: order, isLoading, refetch } = useGetOrder(orderNumber, {
     query: { enabled: !!orderNumber }
   });
+
+  const initiatePayment = useInitiatePesepayPayment();
+
+  const queryClient = useQueryClient();
+  const isAwaitingPayment = order?.status === "pending_payment" && !!order?.paymentReferenceNumber;
+
+  useGetPesepayStatus(orderNumber, {
+    query: {
+      enabled: isAwaitingPayment,
+      refetchInterval: (query) => (query.state.data?.orderStatus === "pending_payment" ? 4000 : false),
+      refetchOnWindowFocus: isAwaitingPayment,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      select: (data: any) => {
+        if (data?.orderStatus && data.orderStatus !== "pending_payment") {
+          queryClient.invalidateQueries({ queryKey: getGetOrderQueryKey(orderNumber) });
+        }
+        return data;
+      },
+    },
+  });
+
+  const handlePayWithPesepay = () => {
+    setPaymentError(null);
+    initiatePayment.mutate(
+      { data: { orderNumber } },
+      {
+        onSuccess: (result) => {
+          window.location.href = result.redirectUrl;
+        },
+        onError: () => {
+          setPaymentError("We couldn't start the payment. Please try again or confirm on WhatsApp.");
+        },
+      }
+    );
+  };
 
   if (isLoading) {
     return (
@@ -117,44 +155,67 @@ export default function OrderConfirmation() {
           </CardContent>
         </Card>
 
-        <Card className="mb-8 border-primary/20 shadow-md overflow-hidden">
-          <CardContent className="p-6 md:p-8 text-center">
-            <h3 className="font-bold text-xl mb-3">Complete Your Payment</h3>
-            <p className="text-muted-foreground mb-6 max-w-lg mx-auto">
-              Secure your order by paying with Paynow, or confirm directly with us on WhatsApp. Your meat will only be prepared once payment is confirmed.
-            </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Button
-                size="lg"
-                className="w-full sm:w-auto bg-primary hover:bg-primary/90"
-                onClick={() =>
-                  window.open(
-                    `https://wa.me/263771234567?text=${encodeURIComponent(
-                      `Hi Arthur Herron! I've placed order #${order.orderNumber} for $${order.total.toFixed(2)} and would like to arrange Paynow payment.`
-                    )}`,
-                    "_blank"
-                  )
-                }
-              >
-                <CreditCard className="h-5 w-5 mr-2" />
-                Pay with Paynow
-              </Button>
-              <a
-                href={`https://wa.me/263771234567?text=${encodeURIComponent(
-                  `Hi Arthur Herron! I've placed order #${order.orderNumber} for $${order.total.toFixed(2)} and would like to confirm it.`
-                )}`}
-                target="_blank"
-                rel="noreferrer"
-                className="w-full sm:w-auto"
-              >
-                <Button size="lg" variant="outline" className="w-full sm:w-auto border-[#25D366] text-[#25D366] hover:bg-[#25D366]/10 hover:text-[#25D366]">
-                  <MessageCircle className="h-5 w-5 mr-2" />
-                  Confirm on WhatsApp
+        {order.status === "confirmed" ? (
+          <Card className="mb-8 border-green-500/30 bg-green-50 dark:bg-green-950/20 shadow-md overflow-hidden">
+            <CardContent className="p-6 md:p-8 text-center">
+              <CheckCircle2 className="h-10 w-10 text-green-600 dark:text-green-500 mx-auto mb-3" />
+              <h3 className="font-bold text-xl mb-2">Payment Received</h3>
+              <p className="text-muted-foreground max-w-lg mx-auto">
+                Thank you! Your payment has been confirmed and our butchers are preparing your order.
+              </p>
+            </CardContent>
+          </Card>
+        ) : (
+          <Card className="mb-8 border-primary/20 shadow-md overflow-hidden">
+            <CardContent className="p-6 md:p-8 text-center">
+              <h3 className="font-bold text-xl mb-3">Complete Your Payment</h3>
+              <p className="text-muted-foreground mb-6 max-w-lg mx-auto">
+                Secure your order by paying online with Pesepay, or confirm directly with us on WhatsApp. Your meat will only be prepared once payment is confirmed.
+              </p>
+              {order.status === "payment_failed" && (
+                <p className="text-destructive text-sm mb-4 flex items-center justify-center gap-1">
+                  <XCircle className="h-4 w-4" /> Your last payment attempt was unsuccessful. Please try again.
+                </p>
+              )}
+              {isAwaitingPayment && (
+                <p className="text-muted-foreground text-sm mb-4 flex items-center justify-center gap-2">
+                  <Loader2 className="h-4 w-4 animate-spin" /> Waiting for payment confirmation...
+                </p>
+              )}
+              {paymentError && (
+                <p className="text-destructive text-sm mb-4">{paymentError}</p>
+              )}
+              <div className="flex flex-col sm:flex-row justify-center gap-4">
+                <Button
+                  size="lg"
+                  className="w-full sm:w-auto bg-primary hover:bg-primary/90"
+                  onClick={handlePayWithPesepay}
+                  disabled={initiatePayment.isPending}
+                >
+                  {initiatePayment.isPending ? (
+                    <Loader2 className="h-5 w-5 mr-2 animate-spin" />
+                  ) : (
+                    <CreditCard className="h-5 w-5 mr-2" />
+                  )}
+                  Pay with Pesepay
                 </Button>
-              </a>
-            </div>
-          </CardContent>
-        </Card>
+                <a
+                  href={`https://wa.me/263771234567?text=${encodeURIComponent(
+                    `Hi Arthur Herron! I've placed order #${order.orderNumber} for $${order.total.toFixed(2)} and would like to confirm it.`
+                  )}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-full sm:w-auto"
+                >
+                  <Button size="lg" variant="outline" className="w-full sm:w-auto border-[#25D366] text-[#25D366] hover:bg-[#25D366]/10 hover:text-[#25D366]">
+                    <MessageCircle className="h-5 w-5 mr-2" />
+                    Confirm on WhatsApp
+                  </Button>
+                </a>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         <div className="bg-muted/50 rounded-xl p-6 md:p-8 text-center">
           <h3 className="font-bold text-xl mb-3">What happens next?</h3>

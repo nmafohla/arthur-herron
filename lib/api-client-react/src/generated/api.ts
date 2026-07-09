@@ -31,6 +31,10 @@ import type {
   ListProductsParams,
   Order,
   OrderInput,
+  PesepayInitiateInput,
+  PesepayInitiateResponse,
+  PesepayStatusResponse,
+  PesepayWebhookPayload,
   Product,
   StorefrontSummary,
   UploadUrlRequest,
@@ -604,6 +608,225 @@ export function useGetOrder<TData = Awaited<ReturnType<typeof getOrder>>, TError
 
 
 
+
+export const getInitiatePesepayPaymentUrl = () => {
+
+
+
+
+  return `/api/payments/pesepay/initiate`
+}
+
+/**
+ * @summary Initiate a Pesepay payment for an order
+ */
+export const initiatePesepayPayment = async (pesepayInitiateInput: PesepayInitiateInput, options?: RequestInit): Promise<PesepayInitiateResponse> => {
+
+  return customFetch<PesepayInitiateResponse>(getInitiatePesepayPaymentUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(pesepayInitiateInput)
+  }
+);}
+
+
+
+
+
+export const getInitiatePesepayPaymentMutationOptions = <TError = ErrorType<ErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof initiatePesepayPayment>>, TError,{data: BodyType<PesepayInitiateInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof initiatePesepayPayment>>, TError,{data: BodyType<PesepayInitiateInput>}, TContext> => {
+
+const mutationKey = ['initiatePesepayPayment'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof initiatePesepayPayment>>, {data: BodyType<PesepayInitiateInput>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  initiatePesepayPayment(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type InitiatePesepayPaymentMutationResult = NonNullable<Awaited<ReturnType<typeof initiatePesepayPayment>>>
+    export type InitiatePesepayPaymentMutationBody = BodyType<PesepayInitiateInput>
+    export type InitiatePesepayPaymentMutationError = ErrorType<ErrorResponse>
+
+    /**
+ * @summary Initiate a Pesepay payment for an order
+ */
+export const useInitiatePesepayPayment = <TError = ErrorType<ErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof initiatePesepayPayment>>, TError,{data: BodyType<PesepayInitiateInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof initiatePesepayPayment>>,
+        TError,
+        {data: BodyType<PesepayInitiateInput>},
+        TContext
+      > => {
+      return useMutation(getInitiatePesepayPaymentMutationOptions(options));
+    }
+
+export const getGetPesepayStatusUrl = (orderNumber: string,) => {
+
+
+
+
+  return `/api/payments/pesepay/status/${orderNumber}`
+}
+
+/**
+ * @summary Poll Pesepay for the latest status of an order's payment
+ */
+export const getPesepayStatus = async (orderNumber: string, options?: RequestInit): Promise<PesepayStatusResponse> => {
+
+  return customFetch<PesepayStatusResponse>(getGetPesepayStatusUrl(orderNumber),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetPesepayStatusQueryKey = (orderNumber: string,) => {
+    return [
+    `/api/payments/pesepay/status/${orderNumber}`
+    ] as const;
+    }
+
+
+export const getGetPesepayStatusQueryOptions = <TData = Awaited<ReturnType<typeof getPesepayStatus>>, TError = ErrorType<ErrorResponse>>(orderNumber: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getPesepayStatus>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetPesepayStatusQueryKey(orderNumber);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPesepayStatus>>> = ({ signal }) => getPesepayStatus(orderNumber, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: orderNumber !== null && orderNumber !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getPesepayStatus>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetPesepayStatusQueryResult = NonNullable<Awaited<ReturnType<typeof getPesepayStatus>>>
+export type GetPesepayStatusQueryError = ErrorType<ErrorResponse>
+
+
+/**
+ * @summary Poll Pesepay for the latest status of an order's payment
+ */
+
+export function useGetPesepayStatus<TData = Awaited<ReturnType<typeof getPesepayStatus>>, TError = ErrorType<ErrorResponse>>(
+ orderNumber: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getPesepayStatus>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetPesepayStatusQueryOptions(orderNumber,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getPesepayResultWebhookUrl = () => {
+
+
+
+
+  return `/api/payments/pesepay/result`
+}
+
+/**
+ * @summary Webhook Pesepay calls with the final encrypted transaction result
+ */
+export const pesepayResultWebhook = async (pesepayWebhookPayload: PesepayWebhookPayload, options?: RequestInit): Promise<void> => {
+
+  return customFetch<void>(getPesepayResultWebhookUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(pesepayWebhookPayload)
+  }
+);}
+
+
+
+
+
+export const getPesepayResultWebhookMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof pesepayResultWebhook>>, TError,{data: BodyType<PesepayWebhookPayload>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof pesepayResultWebhook>>, TError,{data: BodyType<PesepayWebhookPayload>}, TContext> => {
+
+const mutationKey = ['pesepayResultWebhook'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof pesepayResultWebhook>>, {data: BodyType<PesepayWebhookPayload>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  pesepayResultWebhook(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PesepayResultWebhookMutationResult = NonNullable<Awaited<ReturnType<typeof pesepayResultWebhook>>>
+    export type PesepayResultWebhookMutationBody = BodyType<PesepayWebhookPayload>
+    export type PesepayResultWebhookMutationError = ErrorType<unknown>
+
+    /**
+ * @summary Webhook Pesepay calls with the final encrypted transaction result
+ */
+export const usePesepayResultWebhook = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof pesepayResultWebhook>>, TError,{data: BodyType<PesepayWebhookPayload>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof pesepayResultWebhook>>,
+        TError,
+        {data: BodyType<PesepayWebhookPayload>},
+        TContext
+      > => {
+      return useMutation(getPesepayResultWebhookMutationOptions(options));
+    }
 
 export const getRequestUploadUrlUrl = () => {
 

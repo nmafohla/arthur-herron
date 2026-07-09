@@ -139,6 +139,7 @@ export type OrderStatus = typeof OrderStatus[keyof typeof OrderStatus];
 export const OrderStatus = {
   pending_payment: 'pending_payment',
   confirmed: 'confirmed',
+  payment_failed: 'payment_failed',
 } as const;
 
 export interface Order {
@@ -163,8 +164,40 @@ export interface Order {
   status: OrderStatus;
   subtotal: number;
   total: number;
+  /** @nullable */
+  paymentReferenceNumber?: string | null;
   createdAt: string;
   items: OrderItem[];
+}
+
+export interface PesepayInitiateInput {
+  /** @minLength 1 */
+  orderNumber: string;
+}
+
+export interface PesepayInitiateResponse {
+  redirectUrl: string;
+  referenceNumber: string;
+}
+
+export type PesepayStatusResponseOrderStatus = typeof PesepayStatusResponseOrderStatus[keyof typeof PesepayStatusResponseOrderStatus];
+
+
+export const PesepayStatusResponseOrderStatus = {
+  pending_payment: 'pending_payment',
+  confirmed: 'confirmed',
+  payment_failed: 'payment_failed',
+} as const;
+
+export interface PesepayStatusResponse {
+  /** Raw Pesepay transaction status */
+  status: string;
+  orderStatus: PesepayStatusResponseOrderStatus;
+}
+
+export interface PesepayWebhookPayload {
+  /** Base64-encoded AES-256-CBC encrypted transaction payload */
+  payload: string;
 }
 
 export interface UploadUrlRequest {

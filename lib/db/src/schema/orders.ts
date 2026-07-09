@@ -5,7 +5,7 @@ import { deliveryZonesTable } from "./delivery-zones";
 import { productsTable } from "./products";
 
 export const orders_fulfillmentTypeValues = ["delivery", "pickup"] as const;
-export const orders_statusValues = ["pending_payment", "confirmed"] as const;
+export const orders_statusValues = ["pending_payment", "confirmed", "payment_failed"] as const;
 
 export const ordersTable = pgTable("orders", {
   id: serial("id").primaryKey(),
@@ -24,6 +24,8 @@ export const ordersTable = pgTable("orders", {
   status: text("status", { enum: orders_statusValues }).notNull().default("pending_payment"),
   subtotal: numeric("subtotal", { precision: 10, scale: 2 }).notNull(),
   total: numeric("total", { precision: 10, scale: 2 }).notNull(),
+  paymentReferenceNumber: text("payment_reference_number"),
+  paymentPollUrl: text("payment_poll_url"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 

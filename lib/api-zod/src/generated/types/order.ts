@@ -31,6 +31,8 @@ export interface Order {
   status: OrderStatus;
   subtotal: number;
   total: number;
+  /** @nullable */
+  paymentReferenceNumber?: string | null;
   createdAt: string;
   items: OrderItem[];
 }
