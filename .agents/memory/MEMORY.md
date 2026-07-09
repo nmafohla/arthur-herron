@@ -1,0 +1,1 @@
+- [Drizzle numeric columns need normalization](drizzle-numeric-serialization.md) — postgres `numeric` columns return as strings via drizzle; API routes must cast to Number before Zod response validation.

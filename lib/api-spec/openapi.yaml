@@ -3,13 +3,25 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: Arthur Herron Butchery API specification
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: categories
+    description: Product category operations
+  - name: products
+    description: Product catalog operations
+  - name: orders
+    description: Order and checkout operations
+  - name: delivery
+    description: Delivery zone operations
+  - name: stats
+    description: Storefront summary operations
+  - name: Storage
+    description: Object storage upload and serving endpoints.
 paths:
   /healthz:
     get:
@@ -24,6 +36,265 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /categories:
+    get:
+      operationId: listCategories
+      tags: [categories]
+      summary: List all product categories
+      responses:
+        "200":
+          description: List of categories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Category"
+
+  /products:
+    get:
+      operationId: listProducts
+      tags: [products]
+      summary: List products with optional filters
+      parameters:
+        - name: categorySlug
+          in: query
+          schema: { type: string }
+        - name: search
+          in: query
+          schema: { type: string }
+        - name: availability
+          in: query
+          schema:
+            type: string
+            enum: [in_stock, limited, order_ahead]
+        - name: minPrice
+          in: query
+          schema: { type: number }
+        - name: maxPrice
+          in: query
+          schema: { type: number }
+        - name: featured
+          in: query
+          schema: { type: boolean }
+      responses:
+        "200":
+          description: List of products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+
+  /products/{id}:
+    get:
+      operationId: getProduct
+      tags: [products]
+      summary: Get a single product by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Product detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /delivery-zones:
+    get:
+      operationId: listDeliveryZones
+      tags: [delivery]
+      summary: List delivery zones with fees
+      responses:
+        "200":
+          description: List of delivery zones
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DeliveryZone"
+
+  /orders:
+    post:
+      operationId: createOrder
+      tags: [orders]
+      summary: Create a new order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderInput"
+      responses:
+        "201":
+          description: Order created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /orders/{orderNumber}:
+    get:
+      operationId: getOrder
+      tags: [orders]
+      summary: Get an order by order number
+      parameters:
+        - name: orderNumber
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Order detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /storage/uploads/request-url:
+    post:
+      tags: [Storage]
+      operationId: requestUploadUrl
+      summary: Request a presigned URL for file upload
+      description: |
+        Returns a presigned GCS URL for direct upload. The client sends JSON
+        metadata here, then uploads the file directly to the returned URL.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UploadUrlRequest"
+      responses:
+        "200":
+          description: Presigned upload URL generated.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UploadUrlResponse"
+        "400":
+          description: Missing or invalid required fields.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Failed to generate upload URL.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /storage/public-objects/{filePath}:
+    get:
+      tags: [Storage]
+      operationId: getPublicObject
+      summary: Serve a public asset from PUBLIC_OBJECT_SEARCH_PATHS
+      description: |
+        Unconditionally public — no authentication or ACL checks.
+        Searches PUBLIC_OBJECT_SEARCH_PATHS for the given file path.
+      parameters:
+        - name: filePath
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Relative file path within the public search paths.
+      responses:
+        "200":
+          description: Object content streamed with correct Content-Type.
+          content:
+            "*/*":
+              schema:
+                type: string
+                format: binary
+        "404":
+          description: File not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Failed to serve public object.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /storage/objects/{objectPath}:
+    get:
+      tags: [Storage]
+      operationId: getStorageObject
+      summary: Serve an object entity from PRIVATE_OBJECT_DIR
+      description: |
+        Serves object entities uploaded via presigned URLs. These can optionally
+        be protected with authentication or ACL checks based on the use case.
+      parameters:
+        - name: objectPath
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Object path within the private object dir (e.g. `uploads/some-uuid`).
+      responses:
+        "200":
+          description: Object content streamed with correct Content-Type.
+          content:
+            "*/*":
+              schema:
+                type: string
+                format: binary
+        "404":
+          description: Object not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Failed to serve object.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /stats/summary:
+    get:
+      operationId: getStorefrontSummary
+      tags: [stats]
+      summary: Get storefront summary (best sellers, categories with counts)
+      responses:
+        "200":
+          description: Storefront summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StorefrontSummary"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +305,226 @@ components:
       required:
         - status
 
+    ErrorResponse:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: string
+
+    Category:
+      type: object
+      required: [id, slug, name, description, imageUrl, productCount]
+      properties:
+        id: { type: integer }
+        slug: { type: string }
+        name: { type: string }
+        description: { type: string }
+        imageUrl: { type: string }
+        productCount: { type: integer }
+
+    Product:
+      type: object
+      required:
+        - id
+        - slug
+        - name
+        - shortDescription
+        - description
+        - categorySlug
+        - categoryName
+        - pricingType
+        - price
+        - unit
+        - oldPrice
+        - promoTag
+        - availability
+        - imageUrl
+        - galleryUrls
+        - cutOptions
+        - featured
+        - preparationNote
+      properties:
+        id: { type: integer }
+        slug: { type: string }
+        name: { type: string }
+        shortDescription: { type: string }
+        description: { type: string }
+        categorySlug: { type: string }
+        categoryName: { type: string }
+        pricingType:
+          type: string
+          enum: [fixed, per_kg, pack]
+        price: { type: number }
+        unit: { type: string }
+        oldPrice: { type: ["number", "null"] }
+        promoTag: { type: ["string", "null"] }
+        availability:
+          type: string
+          enum: [in_stock, limited, order_ahead]
+        imageUrl: { type: string }
+        galleryUrls:
+          type: array
+          items: { type: string }
+        cutOptions:
+          type: array
+          items: { type: string }
+        featured: { type: boolean }
+        preparationNote: { type: string }
+
+    DeliveryZone:
+      type: object
+      required: [id, name, fee, etaText, sameDayCutoff]
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        fee: { type: number }
+        etaText: { type: string }
+        sameDayCutoff: { type: string }
+
+    OrderItemInput:
+      type: object
+      required: [productId, productName, quantity, unitPrice, cutOption, note]
+      properties:
+        productId: { type: integer }
+        productName: { type: string }
+        quantity: { type: number }
+        unitPrice: { type: number }
+        cutOption: { type: ["string", "null"] }
+        note: { type: ["string", "null"] }
+
+    OrderItem:
+      type: object
+      required: [id, productId, productName, quantity, unitPrice, cutOption, note, lineTotal]
+      properties:
+        id: { type: integer }
+        productId: { type: integer }
+        productName: { type: string }
+        quantity: { type: number }
+        unitPrice: { type: number }
+        cutOption: { type: ["string", "null"] }
+        note: { type: ["string", "null"] }
+        lineTotal: { type: number }
+
+    OrderInput:
+      type: object
+      required:
+        - fullName
+        - phone
+        - email
+        - fulfillmentType
+        - address
+        - areaZoneId
+        - preferredDate
+        - preferredTimeWindow
+        - notes
+        - items
+      properties:
+        fullName: { type: string, minLength: 1 }
+        phone: { type: string, minLength: 1 }
+        email: { type: ["string", "null"] }
+        fulfillmentType:
+          type: string
+          enum: [delivery, pickup]
+        address: { type: ["string", "null"] }
+        areaZoneId: { type: ["integer", "null"] }
+        preferredDate: { type: string }
+        preferredTimeWindow: { type: string }
+        notes: { type: ["string", "null"] }
+        items:
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/OrderItemInput"
+
+    Order:
+      type: object
+      required:
+        - id
+        - orderNumber
+        - fullName
+        - phone
+        - email
+        - fulfillmentType
+        - address
+        - areaZoneId
+        - areaZoneName
+        - deliveryFee
+        - preferredDate
+        - preferredTimeWindow
+        - notes
+        - status
+        - subtotal
+        - total
+        - createdAt
+        - items
+      properties:
+        id: { type: integer }
+        orderNumber: { type: string }
+        fullName: { type: string }
+        phone: { type: string }
+        email: { type: ["string", "null"] }
+        fulfillmentType:
+          type: string
+          enum: [delivery, pickup]
+        address: { type: ["string", "null"] }
+        areaZoneId: { type: ["integer", "null"] }
+        areaZoneName: { type: ["string", "null"] }
+        deliveryFee: { type: number }
+        preferredDate: { type: string }
+        preferredTimeWindow: { type: string }
+        notes: { type: ["string", "null"] }
+        status:
+          type: string
+          enum: [pending_payment, confirmed]
+        subtotal: { type: number }
+        total: { type: number }
+        createdAt: { type: string }
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/OrderItem"
+
+    UploadUrlRequest:
+      type: object
+      required: [name, size, contentType]
+      properties:
+        name:
+          type: string
+          minLength: 1
+          description: Original file name.
+        size:
+          type: integer
+          minimum: 1
+          description: File size in bytes.
+        contentType:
+          type: string
+          minLength: 1
+          description: MIME type of the file (e.g. `image/jpeg`).
+    UploadUrlResponse:
+      type: object
+      required: [uploadURL, objectPath]
+      properties:
+        uploadURL:
+          type: string
+          description: Presigned GCS URL for PUT upload.
+        objectPath:
+          type: string
+          description: Normalized object path (e.g. `/objects/uploads/uuid`). Store this in your database.
+        metadata:
+          $ref: "#/components/schemas/UploadUrlRequest"
+
+    StorefrontSummary:
+      type: object
+      required: [bestSellers, categoryCounts, totalProducts]
+      properties:
+        bestSellers:
+          type: array
+          items:
+            $ref: "#/components/schemas/Product"
+        categoryCounts:
+          type: array
+          items:
+            $ref: "#/components/schemas/Category"
+        totalProducts:
+          type: integer

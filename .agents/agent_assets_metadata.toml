@@ -1,5 +1,88 @@
 uploads = []
-generated = []
+
+[[generated]]
+id = "LLl7SZ2PYc8HZrVmTRKjZ"
+uri = "file://attached_assets/generated_images/beef-ribeye.png"
+type = "image"
+title = "beef ribeye steaks"
+
+[[generated]]
+id = "qK2k88frbrzG140hAIDjn"
+uri = "file://attached_assets/generated_images/beef-tbone.png"
+type = "image"
+title = "beef t-bone steaks"
+
+[[generated]]
+id = "Ce8xgc4VffDRL_fV1Do8T"
+uri = "file://attached_assets/generated_images/beef-mince.png"
+type = "image"
+title = "beef mince"
+
+[[generated]]
+id = "z9J-wST8lS3NZoZeoJ52D"
+uri = "file://attached_assets/generated_images/pork-chops.png"
+type = "image"
+title = "pork chops"
+
+[[generated]]
+id = "1gLrYiOjW0Zm1JQeKJ8F7"
+uri = "file://attached_assets/generated_images/pork-belly.png"
+type = "image"
+title = "pork belly"
+
+[[generated]]
+id = "q1K69ENwf2YzI2HVdy0NJ"
+uri = "file://attached_assets/generated_images/whole-chicken.png"
+type = "image"
+title = "whole chicken"
+
+[[generated]]
+id = "NfVdH06fS5MgZHGM2ostq"
+uri = "file://attached_assets/generated_images/chicken-pieces.png"
+type = "image"
+title = "chicken pieces"
+
+[[generated]]
+id = "1uHeBJKvgeolkVC8ROHM8"
+uri = "file://attached_assets/generated_images/lamb-chops.png"
+type = "image"
+title = "lamb chops"
+
+[[generated]]
+id = "RXHAATaW32KXwNtQOJQ2J"
+uri = "file://attached_assets/generated_images/boerewors.png"
+type = "image"
+title = "boerewors sausage"
+
+[[generated]]
+id = "QoQHStsWsMRDPy4u2sMxw"
+uri = "file://attached_assets/generated_images/braai-pack.png"
+type = "image"
+title = "braai combo pack"
+
+[[generated]]
+id = "BYXJb0yp08sfWbxmLv9vS"
+uri = "file://attached_assets/generated_images/oxtail.png"
+type = "image"
+title = "beef oxtail"
+
+[[generated]]
+id = "ZyrmxScYc5wA0R464ig3S"
+uri = "file://attached_assets/generated_images/biltong.png"
+type = "image"
+title = "beef biltong"
+
+[[generated]]
+id = "EzXl8_gjmACCmJM5yg_vH"
+uri = "file://attached_assets/generated_images/family-combo.png"
+type = "image"
+title = "family meat combo box"
+
+[[generated]]
+id = "Q5flcHpVv9JO3jvdr_qUl"
+uri = "file://attached_assets/generated_images/butcher-hero.png"
+type = "image"
+title = "butcher shop interior hero"
 
 [[outputs]]
 id = "UiMlhsiZChsj6XZxZK2ZV"
