@@ -386,3 +386,20 @@
     inset: -1px;
   }
 }
+
+/* Auto-sliding category catalogue (marquee) */
+@keyframes ah-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: ah-marquee var(--marquee-duration, 40s) linear infinite;
+  will-change: transform;
+}
+.marquee-container:hover .animate-marquee,
+.marquee-container:focus-within .animate-marquee {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee { animation: none; }
+}

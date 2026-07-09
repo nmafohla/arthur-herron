@@ -3,6 +3,7 @@ import { useLocation } from "wouter";
 import { useListProducts, useListCategories } from "@workspace/api-client-react";
 import { Layout } from "@/components/layout/layout";
 import { ProductCard } from "@/components/shop/product-card";
+import { CategoryMarquee } from "@/components/shop/category-marquee";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -92,6 +93,16 @@ export default function Shop() {
           </p>
         </div>
       </div>
+
+      {categories && categories.length > 0 && (
+        <CategoryMarquee
+          categories={categories}
+          selectedSlug={selectedCategory}
+          onSelect={(slug) =>
+            setSelectedCategory((prev) => (prev === slug ? undefined : slug))
+          }
+        />
+      )}
 
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
