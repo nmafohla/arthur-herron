@@ -1,6 +1,8 @@
 import { Layout } from "@/components/layout/layout";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
+import familyPhoto from "@assets/17042ae0-edd9-47c4-b9ad-e0090c74aea8_1783602359278.jpeg";
+import foundersPortrait from "@assets/cab111c4-1f8d-4991-9813-b8c3616785f6_1783602359278.jpeg";
 
 export default function About() {
   return (
@@ -73,8 +75,38 @@ export default function About() {
         </div>
       </section>
 
-      {/* Values */}
+      {/* The Family */}
       <section className="py-20 bg-muted/50 border-y border-border">
+        <div className="container mx-auto px-4 max-w-5xl">
+          <div className="text-center max-w-2xl mx-auto mb-14">
+            <h2 className="font-serif text-3xl lg:text-4xl font-bold mb-4">The Family Behind the Counter</h2>
+            <p className="text-muted-foreground">
+              Arthur Herron has always been more than a business — it's our family's life's work, passed down and carried forward with the same care we put into every cut.
+            </p>
+          </div>
+          <div className="grid sm:grid-cols-2 gap-8 max-w-3xl mx-auto">
+            <figure className="text-center">
+              <img
+                src={foundersPortrait}
+                alt="A cherished portrait of the family's founders"
+                className="rounded-lg object-cover w-full aspect-[4/3] shadow-md mb-4"
+              />
+              <figcaption className="text-sm text-muted-foreground">Where it all began — the generation that laid our foundation.</figcaption>
+            </figure>
+            <figure className="text-center">
+              <img
+                src={familyPhoto}
+                alt="Members of the Arthur Herron family"
+                className="rounded-lg object-cover w-full aspect-[4/3] shadow-md mb-4"
+              />
+              <figcaption className="text-sm text-muted-foreground">Family at the heart of everything we do, then and now.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      {/* Values */}
+      <section className="py-20 bg-background">
         <div className="container mx-auto px-4 max-w-5xl text-center">
           <h2 className="font-serif text-3xl font-bold mb-16">The Arthur Herron Standards</h2>
           
