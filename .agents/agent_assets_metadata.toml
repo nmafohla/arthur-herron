@@ -1,0 +1,44 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "UiMlhsiZChsj6XZxZK2ZV"
+uri = "file://brand/logo-stacked.svg"
+type = "image"
+title = "Full Stacked Logo (light bg)"
+
+[[outputs]]
+id = "DHGdYzIF1ngp5SS4_1CbF"
+uri = "file://brand/logo-stacked-dark.svg"
+type = "image"
+title = "Full Stacked Logo (dark bg)"
+
+[[outputs]]
+id = "WqntaPVDg8R8WXrQEwQa_"
+uri = "file://brand/logo-horizontal.svg"
+type = "image"
+title = "Horizontal Header Logo (light bg)"
+
+[[outputs]]
+id = "ZTYN05jGgG-uRcCtEw29e"
+uri = "file://brand/logo-horizontal-dark.svg"
+type = "image"
+title = "Horizontal Header Logo (dark bg)"
+
+[[outputs]]
+id = "0b84NhAi8xuzZpA5k6k01"
+uri = "file://brand/logo-icon.svg"
+type = "image"
+title = "Icon Mark (light bg)"
+
+[[outputs]]
+id = "DV_u-KGwHuWmm8yJRDHop"
+uri = "file://brand/logo-icon-dark.svg"
+type = "image"
+title = "Icon Mark (dark bg)"
+
+[[outputs]]
+id = "rCPW93x5RPQpSgFpjGQGC"
+uri = "file://brand/favicon.svg"
+type = "image"
+title = "Favicon (circular mark)"

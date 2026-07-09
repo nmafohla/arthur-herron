@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 200" role="img" aria-label="Arthur Herron icon mark — dark variant">
+  <title>Arthur Herron Icon Mark (Dark Background)</title>
+
+  <!-- Cleaver (white on dark) -->
+  <g transform="rotate(-22, 110, 95)">
+    <!-- Main blade body -->
+    <path d="M 18 28 L 182 18 L 192 22 L 192 100 L 18 108 Q 6 104 6 96 L 6 40 Q 6 30 18 28 Z" fill="white"/>
+    <!-- Cutting edge bevel -->
+    <path d="M 18 102 L 192 98 L 192 105 Q 192 112 182 112 L 18 112 Q 6 112 6 102 Z" fill="#e8e8e8"/>
+    <!-- Spine highlight -->
+    <rect x="6" y="18" width="186" height="10" rx="3" fill="#f5f5f5"/>
+    <!-- Blade hole -->
+    <circle cx="168" cy="58" r="11" fill="#111827"/>
+    <!-- Bolster -->
+    <rect x="185" y="16" width="16" height="92" rx="2" fill="#d0d0d0"/>
+    <!-- Handle -->
+    <rect x="200" y="22" width="62" height="80" rx="9" fill="white"/>
+    <!-- Rivets -->
+    <circle cx="216" cy="62" r="5" fill="#111827" opacity="0.35"/>
+    <circle cx="232" cy="62" r="5" fill="#111827" opacity="0.35"/>
+    <circle cx="248" cy="62" r="5" fill="#111827" opacity="0.35"/>
+    <!-- Handle top edge -->
+    <rect x="200" y="22" width="62" height="8" rx="9" fill="#f5f5f5"/>
+  </g>
+
+  <!-- Steak cut -->
+  <!-- Fat cap outer rim -->
+  <path d="
+    M 110 52
+    C 135 48, 155 58, 158 76
+    C 161 94, 150 118, 130 130
+    C 118 137, 102 138, 90 132
+    C 74 124, 62 108, 62 90
+    C 62 70, 80 56, 110 52 Z
+  " fill="white" opacity="0.9"/>
+  <!-- Red meat mass -->
+  <path d="
+    M 110 60
+    C 132 56, 148 66, 150 82
+    C 152 98, 142 118, 124 127
+    C 113 133, 100 132, 89 126
+    C 75 118, 68 104, 70 88
+    C 72 70, 88 64, 110 60 Z
+  " fill="#C41E3A"/>
+  <!-- T-bone -->
+  <path d="
+    M 96 70 L 124 70 Q 128 70 128 74 L 128 86 L 136 86 Q 140 86 140 90 Q 140 94 136 94 L 84 94 Q 80 94 80 90 Q 80 86 84 86 L 92 86 L 92 74 Q 92 70 96 70 Z
+  " fill="white" opacity="0.85"/>
+  <!-- Marbling -->
+  <path d="M 105 100 Q 115 96, 125 102" stroke="white" stroke-width="2" fill="none" opacity="0.4" stroke-linecap="round"/>
+  <path d="M 88 108 Q 95 104, 104 110" stroke="white" stroke-width="1.5" fill="none" opacity="0.35" stroke-linecap="round"/>
+</svg>

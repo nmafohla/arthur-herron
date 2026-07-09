@@ -1,0 +1,190 @@
+Build a production-ready responsive e-commerce website for a butcher business in Zimbabwe.
+
+Project goal:
+Create a modern butcher website that helps customers browse meat products, build an order, choose delivery or pickup, and pay online using Zimbabwe-friendly payment methods. The website must feel trustworthy, premium, fast, and practical for a real local business, not like a generic AI template.
+
+Business context:
+- This is a butcher shop selling fresh meat, meat packs, braai packs, chicken, beef cuts, offal, sausages, mince, and family combo boxes.
+- Target customers are households, small events, offices, and regular weekly shoppers in Zimbabwe.
+- The main conversion goal is to get users to place an order and complete payment.
+- Secondary goal is to drive WhatsApp inquiries for custom orders, bulk orders, and unclear stock requests.
+
+Core requirements:
+- Build as a real storefront website, not just a landing page.
+- Use a clean premium local-food-commerce aesthetic.
+- Avoid generic SaaS sections and avoid the typical AI look.
+- No purple gradients, no glowing blobs, no “empowering your journey” nonsense, no icon-in-colored-circle feature cards.
+- The site should feel like a serious food retail business: confident, clear, fresh, and conversion-focused.
+
+Design direction:
+- Visual tone: premium butcher + modern grocery commerce.
+- Style keywords: clean, earthy, trustworthy, appetizing, practical, high-conversion.
+- Use a restrained palette inspired by meat, charcoal, cream, and muted green accents.
+- Suggested colors:
+  - background: warm off-white / cream
+  - text: dark charcoal
+  - primary accent: deep butcher red
+  - secondary accent: muted olive or forest green
+- Use subtle texture only if tasteful.
+- Use strong typography with a premium serif or characterful heading font paired with a highly readable sans-serif body font.
+- Left-align most content.
+- Use generous spacing and strong product-card hierarchy.
+- Support both light and dark mode with a theme toggle.
+
+Pages / sections to build:
+1. Home
+2. Shop / product listing
+3. Product detail view
+4. Cart
+5. Checkout
+6. Delivery areas
+7. About / quality promise
+8. Contact / WhatsApp order help
+9. Order confirmation / success page
+
+Homepage sections:
+- Header with logo, nav, cart icon, theme toggle, WhatsApp CTA
+- Hero section with clear message like:
+  “Fresh meat, delivered across your area.”
+  Include CTA buttons: “Shop now” and “Order on WhatsApp”
+- Trust strip: fresh stock, local delivery, secure payment, pickup available
+- Featured categories: Beef, Chicken, Braai Packs, Family Combos, Sausages, Bulk Orders
+- Best sellers section with real product cards
+- “How ordering works” in 3 simple steps
+- Delivery / pickup explainer
+- Quality promise section
+- Testimonials or customer trust section
+- Footer with contact details, operating hours, delivery zones, payment methods
+
+Product model:
+Support these product types:
+1. Fixed-price products
+   - examples: sausage pack, spice pack, eggs, drinks, burgers
+2. Variable-weight style products
+   - examples: beef cuts, chicken portions, mixed meat packs
+   - show price as “from $X per kg” or “from $X per pack”
+3. Promo packs / family boxes
+   - example: braai combo, weekly family meat box
+
+Each product card should support:
+- product image
+- name
+- short description
+- price
+- optional old price / promo tag
+- availability tag such as “In stock”, “Limited”, or “Order ahead”
+- CTA button
+
+Product detail page:
+- Large product image gallery
+- Product title
+- Pricing
+- Quantity selector
+- Optional cut/size selection
+- Optional note field for customer requests
+- availability status
+- estimated delivery/pickup note
+- add to cart
+- WhatsApp fallback button for custom orders
+
+Cart and checkout:
+- Users can add products to cart, update quantities, remove items, and see totals.
+- Checkout should collect:
+  - full name
+  - phone number
+  - email optional
+  - delivery or pickup
+  - address if delivery
+  - area / suburb
+  - preferred date
+  - preferred time window
+  - notes for order
+- Include order summary and total.
+- Add a payment step that is designed to integrate with Paynow.
+- Show payment options text clearly:
+  - EcoCash
+  - Visa
+  - Mastercard
+  - Zimswitch
+  - local wallet methods supported by Paynow
+- Build the UI so the payment button says something like:
+  “Proceed to secure payment”
+- Add fallback option:
+  “Send order on WhatsApp”
+
+Important:
+Do not fake a full payment backend. Build the frontend and interaction flow in a way that can later connect to Paynow. Structure the code cleanly so a developer can wire in Paynow checkout afterward.
+
+Delivery logic:
+- Include a delivery areas page with sample zones and delivery fees.
+- Support “pickup available”.
+- Show same-day cutoff messaging.
+- Allow product/order notes for substitutions or custom cut requests.
+
+Admin-minded practicality:
+Structure the code and components so this can later connect to:
+- Paynow payment integration
+- product inventory
+- order records
+- delivery zone pricing
+- WhatsApp notifications
+
+SEO and trust:
+- Add strong local SEO structure for Zimbabwe.
+- Include semantic HTML, proper meta title and description, Open Graph tags, and schema markup if useful.
+- Use copy that sounds local-business credible, not inflated marketing fluff.
+- Mention online payment, fresh meat delivery, pickup, and Zimbabwe service areas naturally.
+
+Technical requirements:
+- Build with a modern frontend stack suitable for Anti Gravity.
+- Use responsive design for mobile first.
+- Make it feel excellent on 375px mobile and desktop.
+- Use clean reusable components.
+- Add loading states, empty cart state, and polished form validation states.
+- Include accessible labels, keyboard navigation, and clear focus states.
+- Use realistic sample product data and realistic placeholder images related to butcher/meat retail.
+- Optimize for performance.
+
+UI details:
+- Sticky header
+- Persistent cart visibility
+- Product filters on shop page: category, price range, availability
+- Search bar
+- Category chips
+- Promo badges
+- Delivery/pickup toggle in checkout
+- WhatsApp floating action button on mobile
+- Order success page with order summary and next steps
+
+Copy guidance:
+Write concise, sharp, trust-building copy.
+Avoid generic corporate language.
+Prefer practical phrases like:
+- Fresh daily stock
+- Secure online payment
+- Pickup or local delivery
+- Bulk and custom orders available
+- Order ahead for events and braais
+
+Do not:
+- use fake startup buzzwords
+- overuse gradients
+- center everything
+- make all cards identical
+- create a generic 3-column SaaS feature section
+
+Build output:
+- complete working website UI
+- responsive pages/components
+- realistic navigation between pages/views
+- polished checkout experience
+- sample product catalog
+- code organized for future Paynow integration
+- ready for deployment after developer review
+
+After building, also:
+1. review the site for mobile responsiveness
+2. improve spacing and hierarchy where needed
+3. check the checkout flow for clarity
+4. tighten the visual design so it looks premium and not templated
+5. ensure the final result looks like a real butcher commerce business in Zimbabwe

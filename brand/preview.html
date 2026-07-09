@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Arthur Herron — Logo System Preview</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      background: #f5f0e8;
+      color: #1a1a1a;
+    }
+
+    header {
+      background: #1B2E6B;
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    header span {
+      color: white;
+      font-size: 13px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+
+    h1 {
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 32px;
+    }
+
+    .section {
+      padding: 60px 48px;
+      border-bottom: 1px solid #ddd4c4;
+    }
+    .section-label {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #999;
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1B2E6B;
+      margin-bottom: 6px;
+    }
+    .section-desc {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 13px;
+      color: #777;
+      margin-bottom: 40px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .logo-card {
+      border-radius: 8px;
+      padding: 40px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .logo-card.light {
+      background: #ffffff;
+      border: 1px solid #e8e0d4;
+    }
+    .logo-card.dark {
+      background: #111827;
+    }
+    .logo-card.navy {
+      background: #1B2E6B;
+    }
+    .logo-card.cream {
+      background: #f5f0e8;
+      border: 1px solid #e0d8cc;
+    }
+
+    .card-label {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #aaa;
+      margin-top: 12px;
+      text-align: center;
+    }
+    .card-wrap { }
+
+    .stacked-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .icon-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 16px;
+    }
+    .icon-card {
+      border-radius: 8px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .size-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 32px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .file-list {
+      background: #1B2E6B;
+      border-radius: 8px;
+      padding: 28px 36px;
+      margin-top: 8px;
+    }
+    .file-list h3 {
+      color: white;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      opacity: 0.6;
+    }
+    .file-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .file-item:last-child { border-bottom: none; }
+    .file-name {
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      color: #fff;
+      flex: 1;
+    }
+    .file-use {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+    }
+    .file-badge {
+      background: #C41E3A;
+      color: white;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 3px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .colors {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+    .swatch {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: center;
+    }
+    .swatch-block {
+      width: 80px;
+      height: 60px;
+      border-radius: 6px;
+      border: 1px solid rgba(0,0,0,0.08);
+    }
+    .swatch-label {
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: #888;
+      text-align: center;
+    }
+    .swatch-name {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      color: #444;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="logo-icon.svg" height="36" alt="Arthur Herron icon"/>
+    <span>Brand Identity — Logo System Preview</span>
+  </header>
+
+  <!-- STACKED LOGO -->
+  <div class="section">
+    <div class="section-label">01 — Full Logo</div>
+    <div class="section-title">Stacked Lockup</div>
+    <div class="section-desc">Hero sections, footers, about pages, packaging. Primary brand expression.</div>
+    <div class="grid-2">
+      <div>
+        <div class="logo-card light">
+          <img src="logo-stacked.svg" height="240" alt="Arthur Herron stacked logo — light"/>
+        </div>
+        <div class="card-label">Light background</div>
+      </div>
+      <div>
+        <div class="logo-card dark">
+          <img src="logo-stacked-dark.svg" height="240" alt="Arthur Herron stacked logo — dark"/>
+        </div>
+        <div class="card-label">Dark background</div>
+      </div>
+      <div>
+        <div class="logo-card navy">
+          <img src="logo-stacked-dark.svg" height="240" alt="Arthur Herron stacked logo — navy"/>
+        </div>
+        <div class="card-label">Navy background</div>
+      </div>
+      <div>
+        <div class="logo-card cream">
+          <img src="logo-stacked.svg" height="240" alt="Arthur Herron stacked logo — cream"/>
+        </div>
+        <div class="card-label">Cream / warm background</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HORIZONTAL LOGO -->
+  <div class="section">
+    <div class="section-label">02 — Header Logo</div>
+    <div class="section-title">Horizontal Lockup</div>
+    <div class="section-desc">Site header, navigation bar, email headers. Optimised for narrow vertical space.</div>
+    <div class="grid-2">
+      <div>
+        <div class="logo-card light" style="padding: 28px 40px;">
+          <img src="logo-horizontal.svg" width="100%" style="max-width:460px" alt="Arthur Herron horizontal logo — light"/>
+        </div>
+        <div class="card-label">Light background</div>
+      </div>
+      <div>
+        <div class="logo-card dark" style="padding: 28px 40px;">
+          <img src="logo-horizontal-dark.svg" width="100%" style="max-width:460px" alt="Arthur Herron horizontal logo — dark"/>
+        </div>
+        <div class="card-label">Dark background</div>
+      </div>
+    </div>
+
+    <!-- Scale test -->
+    <div style="margin-top:32px">
+      <div class="section-label" style="margin-bottom:12px">Scale test — header sizes</div>
+      <div class="logo-card light" style="justify-content: flex-start; gap: 32px; align-items: flex-end; padding: 24px 32px; flex-wrap: wrap;">
+        <div style="text-align:center">
+          <img src="logo-horizontal.svg" height="80" alt="80px"/>
+          <div class="card-label" style="color:#aaa; margin-top:6px;">80px — desktop header</div>
+        </div>
+        <div style="text-align:center">
+          <img src="logo-horizontal.svg" height="56" alt="56px"/>
+          <div class="card-label" style="color:#aaa; margin-top:6px;">56px — compact header</div>
+        </div>
+        <div style="text-align:center">
+          <img src="logo-horizontal.svg" height="40" alt="40px"/>
+          <div class="card-label" style="color:#aaa; margin-top:6px;">40px — mobile nav</div>
+        </div>
+        <div style="text-align:center">
+          <img src="logo-horizontal.svg" height="28" alt="28px"/>
+          <div class="card-label" style="color:#aaa; margin-top:6px;">28px — minimum</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ICON / FAVICON -->
+  <div class="section">
+    <div class="section-label">03 — Icon Mark &amp; Favicon</div>
+    <div class="section-title">Simplified Icon</div>
+    <div class="section-desc">Favicon, app icon, browser tab, social media avatar, embossed mark. All detail stripped for legibility at 16–32px.</div>
+
+    <div style="display:flex; gap:20px; flex-wrap:wrap;">
+      <div>
+        <div class="icon-card light" style="background:#fff; border:1px solid #e8e0d4;">
+          <img src="logo-icon.svg" width="120" height="120" alt="Icon light"/>
+          <div class="card-label">Colour — light</div>
+        </div>
+      </div>
+      <div>
+        <div class="icon-card" style="background:#111827; border-radius:8px; padding:24px;">
+          <img src="logo-icon-dark.svg" width="120" height="120" alt="Icon dark"/>
+          <div class="card-label" style="color:#666;">Colour — dark</div>
+        </div>
+      </div>
+      <div>
+        <div class="icon-card" style="background:#1B2E6B; border-radius:8px; padding:24px;">
+          <img src="logo-icon-dark.svg" width="120" height="120" alt="Icon navy"/>
+          <div class="card-label" style="color:#666;">Colour — navy</div>
+        </div>
+      </div>
+      <div>
+        <div class="icon-card" style="background:#fff; border:1px solid #e8e0d4; border-radius:8px; padding:24px;">
+          <img src="favicon.svg" width="120" height="120" alt="Favicon"/>
+          <div class="card-label">Favicon (circular)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Favicon scale test -->
+    <div style="margin-top:28px">
+      <div class="section-label" style="margin-bottom:12px">Favicon scale test</div>
+      <div class="logo-card light" style="justify-content:flex-start; gap:28px; align-items: flex-end; flex-wrap:wrap; padding:20px 28px;">
+        <div style="text-align:center"><img src="favicon.svg" width="64" height="64" alt="64px"/><div class="card-label" style="color:#aaa;">64px</div></div>
+        <div style="text-align:center"><img src="favicon.svg" width="48" height="48" alt="48px"/><div class="card-label" style="color:#aaa;">48px</div></div>
+        <div style="text-align:center"><img src="favicon.svg" width="32" height="32" alt="32px"/><div class="card-label" style="color:#aaa;">32px</div></div>
+        <div style="text-align:center"><img src="favicon.svg" width="24" height="24" alt="24px"/><div class="card-label" style="color:#aaa;">24px</div></div>
+        <div style="text-align:center"><img src="favicon.svg" width="16" height="16" alt="16px"/><div class="card-label" style="color:#aaa;">16px</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BRAND COLOURS -->
+  <div class="section">
+    <div class="section-label">04 — Brand Palette</div>
+    <div class="section-title">Colours</div>
+    <div class="section-desc">Preserved from the original identity. Use these exact values across the full website.</div>
+    <div class="colors">
+      <div class="swatch">
+        <div class="swatch-block" style="background:#1B2E6B;"></div>
+        <div class="swatch-name">Navy</div>
+        <div class="swatch-label">#1B2E6B</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-block" style="background:#C41E3A;"></div>
+        <div class="swatch-name">Butcher Red</div>
+        <div class="swatch-label">#C41E3A</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-block" style="background:#152259; border:1px solid #ddd;"></div>
+        <div class="swatch-name">Deep Navy</div>
+        <div class="swatch-label">#152259</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-block" style="background:#f5f0e8;"></div>
+        <div class="swatch-name">Cream</div>
+        <div class="swatch-label">#F5F0E8</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-block" style="background:#1a1a1a;"></div>
+        <div class="swatch-name">Charcoal</div>
+        <div class="swatch-label">#1A1A1A</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-block" style="background:#ffffff; border: 1px solid #ddd;"></div>
+        <div class="swatch-name">White</div>
+        <div class="swatch-label">#FFFFFF</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FILE LIST -->
+  <div class="section" style="border-bottom:none;">
+    <div class="section-label">05 — Deliverables</div>
+    <div class="section-title">File Index</div>
+    <div class="section-desc">All files in SVG format, ready for web use.</div>
+    <div class="file-list">
+      <h3>brand/</h3>
+      <div class="file-item">
+        <div class="file-name">logo-stacked.svg</div>
+        <div class="file-use">Hero, footer, print — light bg</div>
+        <div class="file-badge">primary</div>
+      </div>
+      <div class="file-item">
+        <div class="file-name">logo-stacked-dark.svg</div>
+        <div class="file-use">Hero, footer — dark / navy bg</div>
+        <div class="file-badge">primary</div>
+      </div>
+      <div class="file-item">
+        <div class="file-name">logo-horizontal.svg</div>
+        <div class="file-use">Site header, nav — light bg</div>
+        <div class="file-badge">header</div>
+      </div>
+      <div class="file-item">
+        <div class="file-name">logo-horizontal-dark.svg</div>
+        <div class="file-use">Site header, nav — dark / navy bg</div>
+        <div class="file-badge">header</div>
+      </div>
+      <div class="file-item">
+        <div class="file-name">logo-icon.svg</div>
+        <div class="file-use">Social avatar, watermark — light bg</div>
+        <div class="file-badge">icon</div>
+      </div>
+      <div class="file-item">
+        <div class="file-name">logo-icon-dark.svg</div>
+        <div class="file-use">Social avatar, watermark — dark bg</div>
+        <div class="file-badge">icon</div>
+      </div>
+      <div class="file-item">
+        <div class="file-name">favicon.svg</div>
+        <div class="file-use">Browser tab, PWA icon, 16–64px</div>
+        <div class="file-badge">favicon</div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
