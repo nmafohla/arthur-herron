@@ -15,6 +15,8 @@ import OrderConfirmation from "@/pages/order-confirmation";
 import Delivery from "@/pages/delivery";
 import About from "@/pages/about";
 import Contact from "@/pages/contact";
+import AdminLogin from "@/pages/admin-login";
+import Admin from "@/pages/admin";
 import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient();
@@ -31,6 +33,8 @@ function Router() {
       <Route path="/delivery" component={Delivery} />
       <Route path="/about" component={About} />
       <Route path="/contact" component={Contact} />
+      <Route path="/admin/login" component={AdminLogin} />
+      <Route path="/admin" component={Admin} />
       <Route component={NotFound} />
     </Switch>
   );

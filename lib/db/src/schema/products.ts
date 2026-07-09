@@ -19,6 +19,7 @@ export const productsTable = pgTable("products", {
   oldPrice: numeric("old_price", { precision: 10, scale: 2 }),
   promoTag: text("promo_tag"),
   availability: text("availability", { enum: products_availabilityValues }).notNull().default("in_stock"),
+  stockQuantity: integer("stock_quantity"),
   imageUrl: text("image_url").notNull(),
   galleryUrls: text("gallery_urls").array().notNull().default([]),
   cutOptions: text("cut_options").array().notNull().default([]),

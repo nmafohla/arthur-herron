@@ -5,27 +5,27 @@
  * Arthur Herron Butchery API specification
  * OpenAPI spec version: 0.1.0
  */
-import type { ProductAvailability } from './productAvailability';
-import type { ProductPricingType } from './productPricingType';
+import type { AdminProductInputAvailability } from './adminProductInputAvailability';
+import type { AdminProductInputPricingType } from './adminProductInputPricingType';
 
-export interface Product {
-  id: number;
+export interface AdminProductInput {
+  /** @minLength 1 */
   slug: string;
+  /** @minLength 1 */
   name: string;
   shortDescription: string;
   description: string;
-  categorySlug: string;
-  categoryName: string;
-  pricingType: ProductPricingType;
+  categoryId: number;
+  pricingType: AdminProductInputPricingType;
   price: number;
   unit: string;
   /** @nullable */
   oldPrice: number | null;
   /** @nullable */
   promoTag: string | null;
-  availability: ProductAvailability;
+  availability: AdminProductInputAvailability;
   /** @nullable */
-  stockQuantity?: number | null;
+  stockQuantity: number | null;
   imageUrl: string;
   galleryUrls: string[];
   cutOptions: string[];

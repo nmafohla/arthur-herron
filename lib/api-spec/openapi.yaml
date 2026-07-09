@@ -22,6 +22,8 @@ tags:
     description: Storefront summary operations
   - name: Storage
     description: Object storage upload and serving endpoints.
+  - name: admin
+    description: Admin panel operations (protected)
 paths:
   /healthz:
     get:
@@ -295,6 +297,177 @@ paths:
               schema:
                 $ref: "#/components/schemas/StorefrontSummary"
 
+  /admin/login:
+    post:
+      operationId: adminLogin
+      tags: [admin]
+      summary: Log in to the admin panel with a password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminLoginInput"
+      responses:
+        "200":
+          description: Logged in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminSessionResponse"
+        "401":
+          description: Invalid password
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /admin/logout:
+    post:
+      operationId: adminLogout
+      tags: [admin]
+      summary: Log out of the admin panel
+      responses:
+        "200":
+          description: Logged out
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminSessionResponse"
+
+  /admin/session:
+    get:
+      operationId: getAdminSession
+      tags: [admin]
+      summary: Check whether the current session is an authenticated admin
+      responses:
+        "200":
+          description: Session status
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminSessionResponse"
+
+  /admin/products:
+    get:
+      operationId: listAdminProducts
+      tags: [admin]
+      summary: List all products for admin management (requires admin session)
+      responses:
+        "200":
+          description: List of products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    post:
+      operationId: createAdminProduct
+      tags: [admin]
+      summary: Create a new product (requires admin session)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminProductInput"
+      responses:
+        "201":
+          description: Product created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /admin/products/{id}:
+    patch:
+      operationId: updateAdminProduct
+      tags: [admin]
+      summary: Update an existing product (requires admin session)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminProductUpdateInput"
+      responses:
+        "200":
+          description: Product updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      operationId: deleteAdminProduct
+      tags: [admin]
+      summary: Delete a product (requires admin session)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Product deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminSessionResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
 components:
   schemas:
     HealthStatus:
@@ -362,6 +535,7 @@ components:
         availability:
           type: string
           enum: [in_stock, limited, order_ahead]
+        stockQuantity: { type: ["integer", "null"] }
         imageUrl: { type: string }
         galleryUrls:
           type: array
@@ -528,3 +702,91 @@ components:
             $ref: "#/components/schemas/Category"
         totalProducts:
           type: integer
+
+    AdminLoginInput:
+      type: object
+      required: [password]
+      properties:
+        password: { type: string, minLength: 1 }
+
+    AdminSessionResponse:
+      type: object
+      required: [authenticated]
+      properties:
+        authenticated: { type: boolean }
+
+    AdminProductInput:
+      type: object
+      required:
+        - slug
+        - name
+        - shortDescription
+        - description
+        - categoryId
+        - pricingType
+        - price
+        - unit
+        - oldPrice
+        - promoTag
+        - availability
+        - stockQuantity
+        - imageUrl
+        - galleryUrls
+        - cutOptions
+        - featured
+        - preparationNote
+      properties:
+        slug: { type: string, minLength: 1 }
+        name: { type: string, minLength: 1 }
+        shortDescription: { type: string }
+        description: { type: string }
+        categoryId: { type: integer }
+        pricingType:
+          type: string
+          enum: [fixed, per_kg, pack]
+        price: { type: number }
+        unit: { type: string }
+        oldPrice: { type: ["number", "null"] }
+        promoTag: { type: ["string", "null"] }
+        availability:
+          type: string
+          enum: [in_stock, limited, order_ahead]
+        stockQuantity: { type: ["integer", "null"] }
+        imageUrl: { type: string }
+        galleryUrls:
+          type: array
+          items: { type: string }
+        cutOptions:
+          type: array
+          items: { type: string }
+        featured: { type: boolean }
+        preparationNote: { type: string }
+
+    AdminProductUpdateInput:
+      type: object
+      properties:
+        slug: { type: string, minLength: 1 }
+        name: { type: string, minLength: 1 }
+        shortDescription: { type: string }
+        description: { type: string }
+        categoryId: { type: integer }
+        pricingType:
+          type: string
+          enum: [fixed, per_kg, pack]
+        price: { type: number }
+        unit: { type: string }
+        oldPrice: { type: ["number", "null"] }
+        promoTag: { type: ["string", "null"] }
+        availability:
+          type: string
+          enum: [in_stock, limited, order_ahead]
+        stockQuantity: { type: ["integer", "null"] }
+        imageUrl: { type: string }
+        galleryUrls:
+          type: array
+          items: { type: string }
+        cutOptions:
+          type: array
+          items: { type: string }
+        featured: { type: boolean }
+        preparationNote: { type: string }

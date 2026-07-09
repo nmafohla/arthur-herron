@@ -57,6 +57,7 @@ export const ListProductsResponseItem = zod.object({
   "oldPrice": zod.number().nullable(),
   "promoTag": zod.string().nullable(),
   "availability": zod.enum(['in_stock', 'limited', 'order_ahead']),
+  "stockQuantity": zod.number().nullish(),
   "imageUrl": zod.string(),
   "galleryUrls": zod.array(zod.string()),
   "cutOptions": zod.array(zod.string()),
@@ -87,6 +88,7 @@ export const GetProductResponse = zod.object({
   "oldPrice": zod.number().nullable(),
   "promoTag": zod.string().nullable(),
   "availability": zod.enum(['in_stock', 'limited', 'order_ahead']),
+  "stockQuantity": zod.number().nullish(),
   "imageUrl": zod.string(),
   "galleryUrls": zod.array(zod.string()),
   "cutOptions": zod.array(zod.string()),
@@ -279,6 +281,7 @@ export const GetStorefrontSummaryResponse = zod.object({
   "oldPrice": zod.number().nullable(),
   "promoTag": zod.string().nullable(),
   "availability": zod.enum(['in_stock', 'limited', 'order_ahead']),
+  "stockQuantity": zod.number().nullish(),
   "imageUrl": zod.string(),
   "galleryUrls": zod.array(zod.string()),
   "cutOptions": zod.array(zod.string()),
@@ -294,6 +297,180 @@ export const GetStorefrontSummaryResponse = zod.object({
   "productCount": zod.number()
 })),
   "totalProducts": zod.number()
+})
+
+
+/**
+ * @summary Log in to the admin panel with a password
+ */
+
+
+
+export const AdminLoginBody = zod.object({
+  "password": zod.string().min(1)
+})
+
+export const AdminLoginResponse = zod.object({
+  "authenticated": zod.boolean()
+})
+
+
+/**
+ * @summary Log out of the admin panel
+ */
+export const AdminLogoutResponse = zod.object({
+  "authenticated": zod.boolean()
+})
+
+
+/**
+ * @summary Check whether the current session is an authenticated admin
+ */
+export const GetAdminSessionResponse = zod.object({
+  "authenticated": zod.boolean()
+})
+
+
+/**
+ * @summary List all products for admin management (requires admin session)
+ */
+export const ListAdminProductsResponseItem = zod.object({
+  "id": zod.number(),
+  "slug": zod.string(),
+  "name": zod.string(),
+  "shortDescription": zod.string(),
+  "description": zod.string(),
+  "categorySlug": zod.string(),
+  "categoryName": zod.string(),
+  "pricingType": zod.enum(['fixed', 'per_kg', 'pack']),
+  "price": zod.number(),
+  "unit": zod.string(),
+  "oldPrice": zod.number().nullable(),
+  "promoTag": zod.string().nullable(),
+  "availability": zod.enum(['in_stock', 'limited', 'order_ahead']),
+  "stockQuantity": zod.number().nullish(),
+  "imageUrl": zod.string(),
+  "galleryUrls": zod.array(zod.string()),
+  "cutOptions": zod.array(zod.string()),
+  "featured": zod.boolean(),
+  "preparationNote": zod.string()
+})
+export const ListAdminProductsResponse = zod.array(ListAdminProductsResponseItem)
+
+
+/**
+ * @summary Create a new product (requires admin session)
+ */
+
+
+
+
+export const CreateAdminProductBody = zod.object({
+  "slug": zod.string().min(1),
+  "name": zod.string().min(1),
+  "shortDescription": zod.string(),
+  "description": zod.string(),
+  "categoryId": zod.number(),
+  "pricingType": zod.enum(['fixed', 'per_kg', 'pack']),
+  "price": zod.number(),
+  "unit": zod.string(),
+  "oldPrice": zod.number().nullable(),
+  "promoTag": zod.string().nullable(),
+  "availability": zod.enum(['in_stock', 'limited', 'order_ahead']),
+  "stockQuantity": zod.number().nullable(),
+  "imageUrl": zod.string(),
+  "galleryUrls": zod.array(zod.string()),
+  "cutOptions": zod.array(zod.string()),
+  "featured": zod.boolean(),
+  "preparationNote": zod.string()
+})
+
+export const CreateAdminProductResponse = zod.object({
+  "id": zod.number(),
+  "slug": zod.string(),
+  "name": zod.string(),
+  "shortDescription": zod.string(),
+  "description": zod.string(),
+  "categorySlug": zod.string(),
+  "categoryName": zod.string(),
+  "pricingType": zod.enum(['fixed', 'per_kg', 'pack']),
+  "price": zod.number(),
+  "unit": zod.string(),
+  "oldPrice": zod.number().nullable(),
+  "promoTag": zod.string().nullable(),
+  "availability": zod.enum(['in_stock', 'limited', 'order_ahead']),
+  "stockQuantity": zod.number().nullish(),
+  "imageUrl": zod.string(),
+  "galleryUrls": zod.array(zod.string()),
+  "cutOptions": zod.array(zod.string()),
+  "featured": zod.boolean(),
+  "preparationNote": zod.string()
+})
+
+
+/**
+ * @summary Update an existing product (requires admin session)
+ */
+export const UpdateAdminProductParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+
+
+
+
+export const UpdateAdminProductBody = zod.object({
+  "slug": zod.string().min(1).optional(),
+  "name": zod.string().min(1).optional(),
+  "shortDescription": zod.string().optional(),
+  "description": zod.string().optional(),
+  "categoryId": zod.number().optional(),
+  "pricingType": zod.enum(['fixed', 'per_kg', 'pack']).optional(),
+  "price": zod.number().optional(),
+  "unit": zod.string().optional(),
+  "oldPrice": zod.number().nullish(),
+  "promoTag": zod.string().nullish(),
+  "availability": zod.enum(['in_stock', 'limited', 'order_ahead']).optional(),
+  "stockQuantity": zod.number().nullish(),
+  "imageUrl": zod.string().optional(),
+  "galleryUrls": zod.array(zod.string()).optional(),
+  "cutOptions": zod.array(zod.string()).optional(),
+  "featured": zod.boolean().optional(),
+  "preparationNote": zod.string().optional()
+})
+
+export const UpdateAdminProductResponse = zod.object({
+  "id": zod.number(),
+  "slug": zod.string(),
+  "name": zod.string(),
+  "shortDescription": zod.string(),
+  "description": zod.string(),
+  "categorySlug": zod.string(),
+  "categoryName": zod.string(),
+  "pricingType": zod.enum(['fixed', 'per_kg', 'pack']),
+  "price": zod.number(),
+  "unit": zod.string(),
+  "oldPrice": zod.number().nullable(),
+  "promoTag": zod.string().nullable(),
+  "availability": zod.enum(['in_stock', 'limited', 'order_ahead']),
+  "stockQuantity": zod.number().nullish(),
+  "imageUrl": zod.string(),
+  "galleryUrls": zod.array(zod.string()),
+  "cutOptions": zod.array(zod.string()),
+  "featured": zod.boolean(),
+  "preparationNote": zod.string()
+})
+
+
+/**
+ * @summary Delete a product (requires admin session)
+ */
+export const DeleteAdminProductParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+export const DeleteAdminProductResponse = zod.object({
+  "authenticated": zod.boolean()
 })
 
 

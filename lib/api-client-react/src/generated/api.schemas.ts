@@ -56,6 +56,8 @@ export interface Product {
   /** @nullable */
   promoTag: string | null;
   availability: ProductAvailability;
+  /** @nullable */
+  stockQuantity?: number | null;
   imageUrl: string;
   galleryUrls: string[];
   cutOptions: string[];
@@ -195,6 +197,101 @@ export interface StorefrontSummary {
   bestSellers: Product[];
   categoryCounts: Category[];
   totalProducts: number;
+}
+
+export interface AdminLoginInput {
+  /** @minLength 1 */
+  password: string;
+}
+
+export interface AdminSessionResponse {
+  authenticated: boolean;
+}
+
+export type AdminProductInputPricingType = typeof AdminProductInputPricingType[keyof typeof AdminProductInputPricingType];
+
+
+export const AdminProductInputPricingType = {
+  fixed: 'fixed',
+  per_kg: 'per_kg',
+  pack: 'pack',
+} as const;
+
+export type AdminProductInputAvailability = typeof AdminProductInputAvailability[keyof typeof AdminProductInputAvailability];
+
+
+export const AdminProductInputAvailability = {
+  in_stock: 'in_stock',
+  limited: 'limited',
+  order_ahead: 'order_ahead',
+} as const;
+
+export interface AdminProductInput {
+  /** @minLength 1 */
+  slug: string;
+  /** @minLength 1 */
+  name: string;
+  shortDescription: string;
+  description: string;
+  categoryId: number;
+  pricingType: AdminProductInputPricingType;
+  price: number;
+  unit: string;
+  /** @nullable */
+  oldPrice: number | null;
+  /** @nullable */
+  promoTag: string | null;
+  availability: AdminProductInputAvailability;
+  /** @nullable */
+  stockQuantity: number | null;
+  imageUrl: string;
+  galleryUrls: string[];
+  cutOptions: string[];
+  featured: boolean;
+  preparationNote: string;
+}
+
+export type AdminProductUpdateInputPricingType = typeof AdminProductUpdateInputPricingType[keyof typeof AdminProductUpdateInputPricingType];
+
+
+export const AdminProductUpdateInputPricingType = {
+  fixed: 'fixed',
+  per_kg: 'per_kg',
+  pack: 'pack',
+} as const;
+
+export type AdminProductUpdateInputAvailability = typeof AdminProductUpdateInputAvailability[keyof typeof AdminProductUpdateInputAvailability];
+
+
+export const AdminProductUpdateInputAvailability = {
+  in_stock: 'in_stock',
+  limited: 'limited',
+  order_ahead: 'order_ahead',
+} as const;
+
+export interface AdminProductUpdateInput {
+  /** @minLength 1 */
+  slug?: string;
+  /** @minLength 1 */
+  name?: string;
+  shortDescription?: string;
+  description?: string;
+  categoryId?: number;
+  pricingType?: AdminProductUpdateInputPricingType;
+  price?: number;
+  unit?: string;
+  /** @nullable */
+  oldPrice?: number | null;
+  /** @nullable */
+  promoTag?: string | null;
+  availability?: AdminProductUpdateInputAvailability;
+  /** @nullable */
+  stockQuantity?: number | null;
+  imageUrl?: string;
+  galleryUrls?: string[];
+  cutOptions?: string[];
+  featured?: boolean;
+  preparationNote?: string;
 }
 
 export type ListProductsParams = {

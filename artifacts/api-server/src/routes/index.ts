@@ -6,6 +6,7 @@ import deliveryZonesRouter from "./delivery-zones";
 import ordersRouter from "./orders";
 import statsRouter from "./stats";
 import storageRouter from "./storage";
+import adminRouter from "./admin";
 
 const router: IRouter = Router();
 
@@ -16,5 +17,6 @@ router.use(deliveryZonesRouter);
 router.use(ordersRouter);
 router.use(statsRouter);
 router.use(storageRouter);
+router.use(adminRouter);
 
 export default router;
