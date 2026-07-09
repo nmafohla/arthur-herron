@@ -1,11 +1,12 @@
 import { useCart } from "@/lib/cart";
 import { Link, useLocation } from "wouter";
-import { ShoppingCart, Menu, X, Phone, MapPin } from "lucide-react";
+import { ShoppingCart, Menu, X, Phone, MapPin, User, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { Moon, Sun } from "lucide-react";
+import { Show } from "@clerk/react";
 
 export function Header() {
   const { totalItems } = useCart();
@@ -65,6 +66,26 @@ export function Header() {
                     {link.label}
                   </Link>
                 ))}
+                <Show when="signed-in">
+                  <Link
+                    href="/account"
+                    className={`text-lg font-medium transition-colors hover:text-primary flex items-center gap-2 ${
+                      location === "/account" ? "text-primary" : "text-foreground"
+                    }`}
+                  >
+                    <User className="h-5 w-5" />
+                    My Account
+                  </Link>
+                </Show>
+                <Show when="signed-out">
+                  <Link
+                    href="/sign-in"
+                    className="text-lg font-medium transition-colors hover:text-primary flex items-center gap-2 text-foreground"
+                  >
+                    <LogIn className="h-5 w-5" />
+                    Sign In
+                  </Link>
+                </Show>
               </nav>
               <div className="mt-auto flex flex-col gap-4 pb-4">
                 <a href="https://wa.me/263771234567" target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary">
@@ -121,6 +142,27 @@ export function Header() {
             <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
             <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
           </Button>
+
+          <Show when="signed-in">
+            <Link href="/account">
+              <Button variant="outline" size="icon" aria-label="My account">
+                <User className="h-5 w-5" />
+              </Button>
+            </Link>
+          </Show>
+          <Show when="signed-out">
+            <Link href="/sign-in">
+              <Button variant="ghost" className="hidden sm:inline-flex">
+                <LogIn className="h-4 w-4 mr-2" />
+                Sign In
+              </Button>
+            </Link>
+            <Link href="/sign-in">
+              <Button variant="outline" size="icon" className="sm:hidden" aria-label="Sign in">
+                <LogIn className="h-5 w-5" />
+              </Button>
+            </Link>
+          </Show>
 
           <Link href="/cart">
             <Button variant="outline" size="icon" className="relative" aria-label="Cart">

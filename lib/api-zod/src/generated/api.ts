@@ -141,6 +141,7 @@ export const CreateOrderBody = zod.object({
 export const CreateOrderResponse = zod.object({
   "id": zod.number(),
   "orderNumber": zod.string(),
+  "userId": zod.string().nullish(),
   "fullName": zod.string(),
   "phone": zod.string(),
   "email": zod.string().nullable(),
@@ -180,6 +181,7 @@ export const GetOrderParams = zod.object({
 export const GetOrderResponse = zod.object({
   "id": zod.number(),
   "orderNumber": zod.string(),
+  "userId": zod.string().nullish(),
   "fullName": zod.string(),
   "phone": zod.string(),
   "email": zod.string().nullable(),
@@ -207,6 +209,56 @@ export const GetOrderResponse = zod.object({
   "lineTotal": zod.number()
 }))
 })
+
+
+/**
+ * @summary Get the signed-in customer's profile and loyalty balance
+ */
+export const GetMeResponse = zod.object({
+  "id": zod.string(),
+  "email": zod.string().nullable(),
+  "fullName": zod.string().nullable(),
+  "phone": zod.string().nullable(),
+  "loyaltyPoints": zod.number(),
+  "createdAt": zod.string()
+})
+
+
+/**
+ * @summary List the signed-in customer's orders
+ */
+export const GetMyOrdersResponseItem = zod.object({
+  "id": zod.number(),
+  "orderNumber": zod.string(),
+  "userId": zod.string().nullish(),
+  "fullName": zod.string(),
+  "phone": zod.string(),
+  "email": zod.string().nullable(),
+  "fulfillmentType": zod.enum(['delivery', 'pickup']),
+  "address": zod.string().nullable(),
+  "areaZoneId": zod.number().nullable(),
+  "areaZoneName": zod.string().nullable(),
+  "deliveryFee": zod.number(),
+  "preferredDate": zod.string(),
+  "preferredTimeWindow": zod.string(),
+  "notes": zod.string().nullable(),
+  "status": zod.enum(['pending_payment', 'confirmed', 'payment_failed']),
+  "subtotal": zod.number(),
+  "total": zod.number(),
+  "paymentReferenceNumber": zod.string().nullish(),
+  "createdAt": zod.string(),
+  "items": zod.array(zod.object({
+  "id": zod.number(),
+  "productId": zod.number(),
+  "productName": zod.string(),
+  "quantity": zod.number(),
+  "unitPrice": zod.number(),
+  "cutOption": zod.string().nullable(),
+  "note": zod.string().nullable(),
+  "lineTotal": zod.number()
+}))
+})
+export const GetMyOrdersResponse = zod.array(GetMyOrdersResponseItem)
 
 
 /**

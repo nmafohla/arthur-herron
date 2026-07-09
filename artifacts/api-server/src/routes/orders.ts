@@ -1,7 +1,8 @@
 import { Router, type IRouter } from "express";
 import { eq } from "drizzle-orm";
-import { db, ordersTable, orderItemsTable, deliveryZonesTable } from "@workspace/db";
+import { db, ordersTable, orderItemsTable, deliveryZonesTable, usersTable } from "@workspace/db";
 import { CreateOrderBody, CreateOrderResponse, GetOrderParams, GetOrderResponse } from "@workspace/api-zod";
+import { getUserId } from "../middlewares/requireAuth";
 
 const router: IRouter = Router();
 
@@ -62,10 +63,20 @@ router.post("/orders", async (req, res): Promise<void> => {
   const total = subtotal + deliveryFee;
   const orderNumber = generateOrderNumber();
 
+  const userId = getUserId(req);
+  if (userId) {
+    // Provision the user row so loyalty points can be credited on payment.
+    await db
+      .insert(usersTable)
+      .values({ id: userId, email: body.email, fullName: body.fullName, phone: body.phone })
+      .onConflictDoNothing();
+  }
+
   const [order] = await db
     .insert(ordersTable)
     .values({
       orderNumber,
+      userId,
       fullName: body.fullName,
       phone: body.phone,
       email: body.email,

@@ -167,6 +167,8 @@ export const OrderStatus = {
 export interface Order {
   id: number;
   orderNumber: string;
+  /** @nullable */
+  userId?: string | null;
   fullName: string;
   phone: string;
   /** @nullable */
@@ -190,6 +192,18 @@ export interface Order {
   paymentReferenceNumber?: string | null;
   createdAt: string;
   items: OrderItem[];
+}
+
+export interface UserProfile {
+  id: string;
+  /** @nullable */
+  email: string | null;
+  /** @nullable */
+  fullName: string | null;
+  /** @nullable */
+  phone: string | null;
+  loyaltyPoints: number;
+  createdAt: string;
 }
 
 export interface PesepayInitiateInput {

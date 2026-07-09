@@ -38,5 +38,6 @@ export * from './productPricingType';
 export * from './storefrontSummary';
 export * from './uploadUrlRequest';
 export * from './uploadUrlResponse';
+export * from './userProfile';
 export * from './waitlistSignup';
 export * from './waitlistSignupInput';

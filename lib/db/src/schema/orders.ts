@@ -1,4 +1,4 @@
-import { pgTable, text, serial, timestamp, integer, numeric } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, timestamp, integer, numeric, boolean } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod/v4";
 import { deliveryZonesTable } from "./delivery-zones";
@@ -10,6 +10,7 @@ export const orders_statusValues = ["pending_payment", "confirmed", "payment_fai
 export const ordersTable = pgTable("orders", {
   id: serial("id").primaryKey(),
   orderNumber: text("order_number").notNull().unique(),
+  userId: text("user_id"),
   fullName: text("full_name").notNull(),
   phone: text("phone").notNull(),
   email: text("email"),
@@ -26,6 +27,7 @@ export const ordersTable = pgTable("orders", {
   total: numeric("total", { precision: 10, scale: 2 }).notNull(),
   paymentReferenceNumber: text("payment_reference_number"),
   paymentPollUrl: text("payment_poll_url"),
+  pointsAwarded: boolean("points_awarded").notNull().default(false),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 

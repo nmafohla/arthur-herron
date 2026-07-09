@@ -12,6 +12,8 @@ import type { OrderStatus } from './orderStatus';
 export interface Order {
   id: number;
   orderNumber: string;
+  /** @nullable */
+  userId?: string | null;
   fullName: string;
   phone: string;
   /** @nullable */

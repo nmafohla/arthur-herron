@@ -14,6 +14,7 @@ import {
   decryptWebhookPayload,
   mapPesepayStatusToOrderStatus,
 } from "../lib/pesepay";
+import { awardPointsForConfirmedOrder } from "../lib/points";
 
 const router: IRouter = Router();
 
@@ -87,6 +88,10 @@ router.get("/payments/pesepay/status/:orderNumber", async (req, res): Promise<vo
       await db.update(ordersTable).set({ status: orderStatus }).where(eq(ordersTable.id, order.id));
     }
 
+    if (orderStatus === "confirmed") {
+      await awardPointsForConfirmedOrder(order.id, req.log);
+    }
+
     res.json(
       GetPesepayStatusResponse.parse({
         status: transaction.transactionStatus,
@@ -127,6 +132,9 @@ router.post("/payments/pesepay/result", async (req, res): Promise<void> => {
     if (order) {
       const orderStatus = mapPesepayStatusToOrderStatus(String(transaction.transactionStatus));
       await db.update(ordersTable).set({ status: orderStatus }).where(eq(ordersTable.id, order.id));
+      if (orderStatus === "confirmed") {
+        await awardPointsForConfirmedOrder(order.id, req.log);
+      }
       req.log.info({ orderNumber: order.orderNumber, orderStatus }, "Pesepay webhook processed");
     }
   } catch (err) {
