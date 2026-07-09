@@ -11,10 +11,10 @@ export default function About() {
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="font-serif text-4xl lg:text-6xl font-bold leading-tight mb-6 text-white">
-              A Legacy of Quality.
+              A Family Legacy Since 2004.
             </h1>
             <p className="text-lg lg:text-xl mb-0 text-primary-foreground/90">
-              For decades, Arthur Herron has been synonymous with premium quality meat in Zimbabwe. Our commitment to excellence starts at the source and ends on your table.
+              From a single butchery in the heart of Bulawayo, the Williams family has spent two decades bringing Zimbabwe premium quality meat — built on hard work, trust, and the belief that the customer is king.
             </p>
           </div>
         </div>
@@ -25,16 +25,16 @@ export default function About() {
         <div className="container mx-auto px-4 max-w-5xl">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div>
-              <h2 className="font-serif text-3xl lg:text-4xl font-bold mb-6">Our Promise</h2>
+              <h2 className="font-serif text-3xl lg:text-4xl font-bold mb-6">Our Family Story</h2>
               <div className="prose prose-sm sm:prose-base dark:prose-invert text-muted-foreground">
                 <p>
-                  At Arthur Herron, we don't just sell meat. We provide the centerpiece for your Sunday family lunch, the fuel for your weekend braai, and the reliable quality you need for everyday meals.
+                  In August 2004, our family took over a small butchery on 10th Avenue, Jason Moyo Street, right in the heart of Bulawayo's central business district. What began as a single counter has grown, over 20 years, into a name Zimbabwean families trust.
                 </p>
                 <p>
-                  We source exclusively from trusted local farmers who meet our strict standards for animal welfare and meat quality. Every cut that leaves our shop has been inspected, expertly prepared, and vacuum-sealed for maximum freshness.
+                  Through every season — and even the toughest economic times — we've grown from strength to strength by staying close to our customers and never compromising on quality. Alongside our master butchery, we offer freshly made boerewors and sausages, cold meats, groceries, and fresh fruit and vegetables: a true one-stop shopping experience.
                 </p>
                 <p>
-                  Our master butchers bring decades of experience to the block, ensuring you get exactly what you need, prepared exactly how you like it.
+                  As a family-owned business, we treat every customer like part of ours. That's why "the customer is king" isn't just a saying to us — it's the promise that has kept generations coming back.
                 </p>
               </div>
               <div className="mt-8">
