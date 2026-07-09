@@ -3,7 +3,7 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import familyPhoto from "@assets/17042ae0-edd9-47c4-b9ad-e0090c74aea8_1783602359278.jpeg";
 import foundersPortrait from "@assets/cab111c4-1f8d-4991-9813-b8c3616785f6_1783602359278.jpeg";
-import tributePhoto from "@assets/57d135db-7a84-4352-bf38-b5d9b7329453_1783602359278.jpeg";
+import tributePhoto from "@assets/memorial-tribute-cropped.jpg";
 
 export default function About() {
   return (
